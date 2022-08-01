@@ -29,7 +29,7 @@ ctx = app.app_context()
 flask.model = load_classifier()
 ctx.push()
 
-@app.route("/smschecker", methods=['GET','POST'])
+@app.route("/", methods=['GET','POST'])
 def index():
     message_status = None
     if request.method == "POST":
