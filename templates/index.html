@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <form method="post" action="/" >
+        <form method="post"  action="{{ url_for('index') }}" >
             <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Enter message to classify to ham or spam</label>
             <input type="text" class="form-control" name="review_msg" id="id_message">
