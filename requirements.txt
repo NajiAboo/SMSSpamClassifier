@@ -1,0 +1,6 @@
+Flask
+nltk
+sklearn
+pandas
+gunicorn
+-e .
