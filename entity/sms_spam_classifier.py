@@ -1,7 +1,7 @@
 from typing import List
 import re
 from nltk.stem import PorterStemmer
-
+import json
 
 
 class SMSSPAMClassifier:
@@ -28,3 +28,12 @@ class SMSSPAMClassifier:
         x_input = self.cv.transform(x_clean)
         y_pred = self.rfc.predict(x_input)
         return y_pred
+
+    
+    def __json__(self):
+        return {
+            "cv": self.cv,
+            "rfc": self.rfc,
+            "sp_words": self.sp_words,
+            "porter_stemmer": self.porter_stemmer
+        }

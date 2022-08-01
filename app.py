@@ -1,6 +1,7 @@
 from crypt import methods
 from os import stat
-from flask import Flask, current_app, render_template, request
+import flask
+from flask import Flask, current_app, render_template, request,session
 import pickle
 from entity.sms_spam_classifier import SMSSPAMClassifier
 import sys  
@@ -13,6 +14,7 @@ nltk.download('stopwords')
 
 
 app = Flask(__name__)
+app.secret_key = "mlmodel"
 
 
     
@@ -23,14 +25,18 @@ def load_classifier() -> SMSSPAMClassifier:
     return sms_classifier
 
 
-model = load_classifier()
+ctx = app.app_context()
+flask.model = load_classifier()
+ctx.push()
 
 @app.route("/smschecker", methods=['GET','POST'])
 def index():
     message_status = None
     if request.method == "POST":
         message_status = "Ham"
-        status = model.predict(request.form.get('review_msg'))
+
+
+        status = flask.model.predict(request.form.get('review_msg'))
         
         if status[0] == 1:
             message_status = "Spam"
@@ -43,3 +49,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+   
