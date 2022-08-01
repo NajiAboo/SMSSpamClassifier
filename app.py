@@ -11,6 +11,10 @@ sys.path.insert(0, '../SMSSpamClassifier/entity/')
 nltk.download('stopwords')
 
 
+
+app = Flask(__name__)
+
+
     
 def load_classifier() -> SMSSPAMClassifier:
     sms_classifier = None
@@ -21,11 +25,7 @@ def load_classifier() -> SMSSPAMClassifier:
 
 model = load_classifier()
 
-app = Flask(__name__)
-
-
-
-@app.route("/", methods=['GET','POST'])
+@app.route("/smschecker", methods=['GET','POST'])
 def index():
     message_status = None
     if request.method == "POST":
@@ -42,4 +42,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
