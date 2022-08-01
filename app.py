@@ -9,12 +9,17 @@ sys.path.insert(0, '../SMSSpamClassifier/entity/')
 
 
 nltk.download('stopwords')
+
+
     
 def load_classifier() -> SMSSPAMClassifier:
     sms_classifier = None
     with open('model/smsspamclassifer.pkl','rb') as picker_reader:
         sms_classifier = pickle.load(picker_reader)
     return sms_classifier
+
+
+model = load_classifier()
 
 app = Flask(__name__)
 
@@ -23,7 +28,7 @@ def index():
     message_status = None
     if request.method == "POST":
         message_status = "Ham"
-        status = current_app.model.predict(request.form.get('review_msg'))
+        status = model.predict(request.form.get('review_msg'))
         
         if status[0] == 1:
             message_status = "Spam"
@@ -35,6 +40,4 @@ def index():
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        current_app.model: SMSSPAMClassifier = load_classifier()
     app.run()
